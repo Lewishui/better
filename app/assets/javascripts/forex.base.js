@@ -104,7 +104,7 @@ return;
             easing: 'ease'
         };
         var tpl;
-console.log(buttons);
+//console.log(buttons);
         for (i = 0; i < buttons.length; i++) {
             button = Ext.get(buttons[i]);
 

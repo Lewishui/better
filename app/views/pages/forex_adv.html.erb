@@ -44,7 +44,9 @@
         </div>
 
         <div id="kxianti" class="kxianti">
-          <%= content_tag "div","", id: "advanced-chart-line-#{@symbol}", class: "forex-chart", data: {symbol: @symbol} %>
+        //  <%= content_tag "div","", id: "advanced-chart-line-#{@symbol}", class: "forex-chart", data: {symbol: @symbol} %>
+            <div id="container" style="min-width:400px;height:400px"></div>
+
           <div id="kxiantitop_center" class="kxiantitop_center">
             <p> <span><%= t( "forex.symbol.#{@symbol}") %>-今天</span></p>
           </div>

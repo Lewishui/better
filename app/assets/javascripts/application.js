@@ -31,10 +31,11 @@
 //= require swiper.jquery.min
 //= require jquery.simplemodal
 //= require highstock
-//= require forex.base
+// require forex.base
 //= require forex.chart
 //= require forex.chart.plus
 //= require new/all
+//= require betteradv
 
 $(function(){
   $('.calendar').datetimepicker({format: "YYYY-MM-DD"});
