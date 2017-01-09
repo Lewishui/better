@@ -433,7 +433,7 @@ BetterFinancialPanel.prototype.drawCharts = function(chartData, b) {
       var g = new Date();
       var e = [];
       e = charData;
-       
+
       var seriesType = 'line';
       var lineColor = Registry.chartConfig.financialPanel.colors.line;
       var fillColor = {

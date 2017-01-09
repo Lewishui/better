@@ -44,8 +44,11 @@
         </div>
 
         <div id="kxianti" class="kxianti">
-        //  <%= content_tag "div","", id: "advanced-chart-line-#{@symbol}", class: "forex-chart", data: {symbol: @symbol} %>
-            <div id="container" style="min-width:400px;height:400px"></div>
+         <%= content_tag "div","", id: "advanced-chart-line-#{@symbol}", class: "forex-chart", data: {symbol: @symbol} %>
+            <div id="container" style="min-width:400px;height:500px"></div>
+          <div id=".fn.countdown" style="min-width:400px;height:500px"></div>
+
+         <!-- // -->
 
           <div id="kxiantitop_center" class="kxiantitop_center">
             <p> <span><%= t( "forex.symbol.#{@symbol}") %>-今天</span></p>
@@ -77,7 +80,7 @@
     </div>
 
     <div id="zishenti_right" class="zishenti_right">
-      <%= render "user_auth_adv" %>
+       <%= render "user_auth_adv" %>
       <div class="zishentiright_down">
 
           <div  class=" b-game-round-time-wrapper game-type-1">
