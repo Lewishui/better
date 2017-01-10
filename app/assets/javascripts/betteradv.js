@@ -208,19 +208,27 @@ $(function() {
         // the button action
         var hasPlotBand = false,
         chart = $('#container').highcharts(),
-        $button = $('#button');
+        $button = $('#gaoyu1');
         $button.click(function() {
             if (!hasPlotBand) {
-                chart.xAxis[0].addPlotBand({
-                    from: 5.5,
-                    to: 7.5,
-                    color: '#FCFFC5',
-                    id: 'plot-band-1'
-                });
-                $button.html('Remove plot band');
+              var series = chart.series[0];
+              setInterval(function() {
+           var x = (new Date()).getTime(),
+               // current time
+               y = Math.random();
+          // series.addPoint([x, y + 1], true, true);
+          chart.xAxis[0].addPlotBand({
+              from: x,
+              to: 7.5,
+              color: '#FCFFC5',
+              id: 'plot-band-1'
+              });
+            },
+                   1000);
+                //$button.html('Remove plot band');
             } else {
-                chart.xAxis[0].removePlotBand('plot-band-1');
-                $button.html('Add plot band');
+            //    chart.xAxis[0].removePlotBand('plot-band-1');
+              //  $button.html('Add plot band');
             }
             hasPlotBand = !hasPlotBand;
         });
