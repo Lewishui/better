@@ -39,8 +39,15 @@ $(function() {
                 useUTC: false
             }
         });
+        Highcharts.setOptions({
+          lang: {
+            resetZoom: "返回",
+            resetZoomTitle: "回到初始状态"
+            }
+            });
         $('#container').highcharts({
             chart: {
+              zoomType: 'x',
                 //背景颜色
                 plotBackgroundColor: '#333333',
                 // plotBackgroundColor: '#FFFFFF',
@@ -61,13 +68,13 @@ $(function() {
                             y = Math.random();
                             series.addPoint([x, y], true, true);
                             //d  plotband
-                            chart.xAxis[0].removePlotBand('plot-band-1');
-                            chart.xAxis[0].addPlotBand({
-                                from: x - 20,
-                                to: y,
-                                color: '#434348',
-                                id: 'plot-band-1'
-                            });
+                            // chart.xAxis[0].removePlotBand('plot-band-1');
+                            // chart.xAxis[0].addPlotBand({
+                            //     from: x - 20,
+                            //     to: y,
+                            //     color: '#434348',
+                            //     id: 'plot-band-1'
+                            // });
                             //
                             chart.yAxis[0].removePlotLine('plot-line-2');
                             chart.yAxis[0].addPlotLine({
@@ -217,9 +224,9 @@ $(function() {
                // current time
                y = Math.random();
           // series.addPoint([x, y + 1], true, true);
-          chart.xAxis[0].addPlotBand({
-              from: x,
-              to: 7.5,
+          chart.yAxis[0].addPlotBand({
+              from: 0.5,
+              to: 2.5,
               color: '#FCFFC5',
               id: 'plot-band-1'
               });
@@ -227,7 +234,32 @@ $(function() {
                    1000);
                 //$button.html('Remove plot band');
             } else {
-            //    chart.xAxis[0].removePlotBand('plot-band-1');
+            //  chart.xAxis[0].removePlotBand('plot-band-1');
+              //  $button.html('Add plot band');
+            }
+            hasPlotBand = !hasPlotBand;
+        });
+        //diyu
+        $button1 = $('#diyu1');
+        $button1.click(function() {
+            if (!hasPlotBand) {
+              var series = chart.series[0];
+              setInterval(function() {
+           var x = (new Date()).getTime(),
+               // current time
+               y = Math.random();
+          // series.addPoint([x, y + 1], true, true);
+          chart.yAxis[0].addPlotBand({
+              from: 0.5,
+              to: 0,
+              color: '#FCFFC5',
+              id: 'plot-band-1'
+              });
+            },
+                   1000);
+                //$button.html('Remove plot band');
+            } else {
+            //  chart.xAxis[0].removePlotBand('plot-band-1');
               //  $button.html('Add plot band');
             }
             hasPlotBand = !hasPlotBand;
