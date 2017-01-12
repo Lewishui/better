@@ -266,3 +266,9 @@ $(function() {
         });
     });
 });
+//diyu
+$button2 = $('#advXiantiaotu');
+$button2.click(function() {
+
+   alert("请先登录或注册！");
+});
