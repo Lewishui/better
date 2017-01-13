@@ -35,8 +35,7 @@
 //= require forex.chart
 //= require forex.chart.plus
 //= require new/all
-//= require betteradv
-
+// = require betteradv
 $(function(){
   $('.calendar').datetimepicker({format: "YYYY-MM-DD"});
   $('.time_calendar').datetimepicker({

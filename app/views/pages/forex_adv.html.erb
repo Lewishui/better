@@ -45,12 +45,21 @@
 
 
         <div id="kxianti" class="kxianti">
+
          <%= content_tag "div","", id: "advanced-chart-line-#{@symbol}", class: "forex-chart", data: {symbol: @symbol} %>
+         <script>
+           new highStockChart('container', retTrade,crrentData);
+           </script> -->
             <div id="container" style="min-width:400px;height:500px"></div>
+            <!--k xiantu  -->
+
+
+            <!-- end  -->
             <div id="advtuxianleibie" class="advtuxianleibie">
               <input type="button" id="advXiantiaotu" value="线条图">
               <input type="button" id="advquyushitu" value="区域视图">
-              <input type="button" id="advkxiantu" value="K线图">     
+              <input type="button" id="advkxiantu" value="K线图">
+
             </div>
 
           <div id="kxiantitop_center" class="kxiantitop_center">
