@@ -726,9 +726,132 @@ $(function() {
 
        });
         ///区域视图结束
+        //K 线图
+        $("#advkxiantu", container).click(function(){
+        {
+           alert("K线图");
+        }
+        $(function () {
+     $.getJSON('//data.jianshukeji.com/jsonp?filename=json/new-intraday.json&callback=?', function (data) {
+         // create the chart
+         $('#container').highcharts('StockChart', {
+             chart: {
+              //   marginRight:200,
+                 // marginBottom: 10,
+                 // marginLeft: 10,
+                 // marginTop: 50,
+                 type: 'spline',
+                 animation: Highcharts.svg, // don't animate in old IE
+                 //背景颜色
+                     backgroundColor: 'black',
+                 plotBackgroundColor: '#333333'
+             },
+             title: {
+                 text: ''
+             },
+             navigator : {
+                 enabled : false
+             },
+             scrollbar : {
+            enabled : false
+        },
+             plotOptions: {
+                 candlestick: {//红涨绿跌
+                     color: 'green',
+                     upColor: 'red'
+                 }
+             },
+             rangeSelector : {
+                 buttons : [{
+                     type : 'hour',
+                     count : 1,
+                     text : '1h'
+                 }, {
+                     type : 'hour',
+                     count : 1,
+                     text : '2h'
+                 }, {
+                     type : 'hour',
+                     count : 1,
+                     text : '5h'
+                 }],
+                 selected : 1,
+                 inputEnabled : false
+             },
+             series : [{
+                 name : 'AAPL',
+                 type: 'candlestick',
+                 data : data,
+                 tooltip: {
+                     valueDecimals: 2
+                 }
+             }]
+         });
+     });
+ });
+ //区域高低
+ // the button action
+ var hasPlotBand = false,
+ chart = $('#container').highcharts(),
+ $button = $('#gaoyu1');
+ $button.click(function() {
+     if (!hasPlotBand) {
+       var series = chart.series[0];
+       setInterval(function() {
+    var x = (new Date()).getTime(),
+        // current time
+        y = Math.random();
+   // series.addPoint([x, y + 1], true, true);
+   chart.yAxis[0].addPlotBand({
+       from: 0.5,
+       to: 2.5,
+       color: '#FCFFC5',
+       id: 'plot-band-1'
+       });
+     },
+            1000);
+         //$button.html('Remove plot band');
+     } else {
+     //  chart.xAxis[0].removePlotBand('plot-band-1');
+       //  $button.html('Add plot band');
+     }
+     hasPlotBand = !hasPlotBand;
+ });
+ //diyu
+ $button1 = $('#diyu1');
+ $button1.click(function() {
+     if (!hasPlotBand) {
+       var series = chart.series[0];
+       setInterval(function() {
+    var x = (new Date()).getTime(),
+        // current time
+        y = Math.random();
+   // series.addPoint([x, y + 1], true, true);
+   chart.yAxis[0].addPlotBand({
+       from: 0.5,
+       to: 0,
+       color: '#FCFFC5',
+       id: 'plot-band-1'
+       });
+     },
+            1000);
+         //$button.html('Remove plot band');
+     } else {
+     //  chart.xAxis[0].removePlotBand('plot-band-1');
+       //  $button.html('Add plot band');
+     }
+     hasPlotBand = !hasPlotBand;
+ });
+ //////////区域高低
 
+        });
+
+
+        //
+        //K线图结束
       });
 
     }
+
 
 });
