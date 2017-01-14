@@ -751,7 +751,7 @@ $(function() {
          // create the chart
          $('#container').highcharts('StockChart', {
              chart: {
-                 zoomType: 'x',
+                 zoomType: 'xy',
               //   marginRight:200,
                  // marginBottom: 10,
                  // marginLeft: 10,
@@ -787,19 +787,17 @@ $(function() {
                  }
              },
          rangeSelector : {
+           allButtonsEnabled: true,
+              
                  buttons : [{
-                     type : 'hour',
+                     type : 'min',
                      count : 1,
-                     text : '1h'
+                     text : '大'
                  }, {
-                     type : 'hour',
+                     type : 'min',
                      count : 1,
-                     text : '2h'
-                 }, {
-                     type : 'hour',
-                     count : 1,
-                     text : '5h'
-                 }],
+                     text : '小'
+                 }, ],
                  selected : 1,
                  inputEnabled : false
              },
