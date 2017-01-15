@@ -31,7 +31,29 @@ Highcharts.Axis.prototype.setSideLabel = function(series, value) {
         text: value
     });
 }
-var chart1;
+var chart1=null;
+var OldInterval = 150;
+//RangeSelector ACTION
+var orgHighchartsRangeSelectorPrototypeRender = Highcharts.RangeSelector.prototype.render;
+Highcharts.RangeSelector.prototype.render = function (min, max) {
+ orgHighchartsRangeSelectorPrototypeRender.apply(this, [min, max]);
+ var leftPosition = this.chart.plotLeft,
+  topPosition = this.chart.plotTop+5,
+  space = 2;
+ this.zoomText.attr({
+  x: leftPosition,
+  y: topPosition + 15
+ });
+ leftPosition += this.zoomText.getBBox().width;
+ for (var i = 0; i < this.buttons.length; i++) {
+  this.buttons[i].attr({
+   x: leftPosition,
+   y: topPosition
+  });
+  leftPosition += this.buttons[i].width + space;
+ }
+};
+
 $(function() {
     $(document).ready(function() {
         Highcharts.setOptions({
@@ -92,6 +114,60 @@ $(function() {
             title: {
                 text: null
             },
+        //     rangeSelector: {
+        //       buttons: [{//定义一组buttons,下标从0开始
+         //
+        //           type: 'min',
+         //
+        //           count: 1,
+         //
+        //           text: '放大'
+         //
+        //           },{
+         //
+        //           type: 'min',
+         //
+        //           count: 1,
+         //
+        //           text: '缩小'
+         //
+        //           }],
+        //       enabled: true,
+        //   //   buttonTheme: { // styles for the buttons
+        //   //     fill: 'none',
+        //   //     stroke: 'none',
+        //   //     'stroke-width': 0,
+        //   //     r: 8,
+        //   //     style: {
+        //   //         color: '#039',
+        //   //         fontWeight: 'bold'
+        //   //     },
+        //   // inputEditDateFormat: '%m-%d',
+        //   //     states: {
+        //   //         hover: {
+        //   //         },
+        //   //         select: {
+        //   //             fill: '#039',
+        //   //             style: {
+        //   //                 color: 'white'
+        //   //             }
+        //   //         }
+        //   //         // disabled: { ... }
+        //   //     }
+        //   // },
+        //   // inputBoxBorderColor: 'gray',
+        //   // inputBoxWidth: 120,
+        //   // inputBoxHeight: 18,
+        //   // inputStyle: {
+        //   //     color: '#039',
+        //   //     fontWeight: 'bold'
+        //   // },
+        //   // labelStyle: {
+        //   //     color: 'silver',
+        //   //     fontWeight: 'bold'
+        //   // },
+        //   // selected: 1
+        //  },
             xAxis: {
                 gridLineDashStyle: 'Solid',
                 //横向网格线样式
@@ -102,7 +178,10 @@ $(function() {
                 endOnTick: true,
                 ordinal: true,
                 type: 'datetime',
-                tickPixelInterval: 150,
+                tickPixelInterval: OldInterval,
+                //波段大小
+                // minPadding: 0.1,
+                // maxPadding: 0.2,
                 // tickLength :210,//主刻度的长度
                 plotBands: [{
                     from: 0.5,
@@ -227,7 +306,7 @@ $(function() {
           chart.yAxis[0].addPlotBand({
               from: 0.5,
               to: 2.5,
-              color: '#FCFFC5',
+              color: '#C0C0C0',
               id: 'plot-band-1'
               });
             },
@@ -252,7 +331,7 @@ $(function() {
           chart.yAxis[0].addPlotBand({
               from: 0.5,
               to: 0,
-              color: '#FCFFC5',
+              color: '#C0C0C0',
               id: 'plot-band-1'
               });
             },
@@ -264,6 +343,29 @@ $(function() {
             }
             hasPlotBand = !hasPlotBand;
         });
+        //放大
+    // var  OldInterval+=OldInterval ;
+    //动态修改xAxis的刻度间隔值
+      function DynamicChangeTickInterval(interval) {
+          chart.xAxis[0].update({
+              tickInterval: interval
+          });
+          }
+        $button2 = $('#advfangda');
+        $button2.click(function() {
+            DynamicChangeTickInterval(150);
+          chart.xAxis[0].update({
+           tickInterval: 200
+       });
+        });
+        //缩小
+        $button2 = $('#advsuoxiao');
+        $button2.click(function() {
+           alert("resetZoom");
+          chart.xAxis[0].update({
+           tickInterval: 100
+              });
+              });
     });
     if($(".forex-wrapper").is('*')){
       $(".forex-wrapper").each(function(){
@@ -787,8 +889,9 @@ $(function() {
                  }
              },
          rangeSelector : {
-           allButtonsEnabled: true,
-              
+          //  注销zoom按钮功能 例子 selected 开始之后的按钮会注销
+      //     allButtonsEnabled: true,
+
                  buttons : [{
                      type : 'min',
                      count : 1,
