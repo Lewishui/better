@@ -279,7 +279,16 @@ $(function() {
                     }
                     return data;
                 } ())
+
             },
+          //   {
+          //      name: '40-day SMA',
+          //      linkedTo: 'primary',
+          //      showInLegend: true,
+          //      type: 'trendline',
+          //      algorithm: 'SMA',
+          //      periods: 40
+          //  },
             // {
             //     name: 'Area',
             //     type: 'area',
