@@ -36,6 +36,13 @@
 //= require forex.chart.plus
 //= require new/all
 // = require betteradv
+// = require indicators
+// = require atr
+// = require ema
+// = require rsi
+// = require sma
+// = require adv.indicators.demo
+
 $(function(){
   $('.calendar').datetimepicker({format: "YYYY-MM-DD"});
   $('.time_calendar').datetimepicker({
