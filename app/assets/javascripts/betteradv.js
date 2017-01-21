@@ -523,7 +523,7 @@ $(function() {
             title: {
                 text: null
             },
-        //     rangeSelector: {
+            //    rangeSelector: {
         //       buttons: [{//定义一组buttons,下标从0开始
          //
         //           type: 'min',
@@ -664,8 +664,13 @@ $(function() {
                 }
             },
             legend: {
-                enabled: false
+                enabled: true,
+                layout: 'vertical',
+                  align: 'right',
+                  verticalAlign: 'middle',
+                  borderWidth: 0
             },
+
             exporting: {
                 enabled: false
             },
@@ -675,6 +680,8 @@ $(function() {
                 //CCC
                 lineWidth: 0.5,
                 name: "",
+                type : 'line',
+                id: 'primary',
                 data: (function() {
                     // generate an array of random data
                     var data = [],
@@ -689,15 +696,15 @@ $(function() {
                     return data;
                 } ())
 
-            },
-          //   {
-          //      name: '40-day SMA',
-          //      linkedTo: 'primary',
-          //      showInLegend: true,
-          //      type: 'trendline',
-          //      algorithm: 'SMA',
-          //      periods: 40
-          //  }
+                },
+                {
+                   name: '40-day SMA',
+                   linkedTo: 'primary',
+                   showInLegend: true,
+                  //  type: 'trendline',
+                   algorithm: 'SMA',
+                   periods: 10
+               }
             // {
             //     name: 'Area',
             //     type: 'area',
@@ -709,6 +716,7 @@ $(function() {
             // },
             ]
         });
+
         // the button action
         var hasPlotBand = false,
         chart = $('#container').highcharts(),
@@ -1398,7 +1406,7 @@ $(function() {
         //sma
           $("#advSMA", container).click(function(){
                 alert("SMA123");
-//
+          //
     //       $(function () {
     //
     //       var adv_options = {
