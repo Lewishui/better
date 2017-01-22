@@ -43,6 +43,7 @@
 //     return val/10000;
 // }
 ///////////////////////////////////////
+document.write("script language='javascript' src='indicators.js'></script");
 $(function () {
   var chart_symbols = [];
   var symbols = [];
@@ -698,10 +699,18 @@ $(function() {
 
                 },
                 {
-                   name: '40-day SMA',
+                      name: 'EMA',
+                      linkedTo: 'primary',
+                      showInLegend: true,
+                      //type: 'trendline',
+                      algorithm: 'EMA',
+                      periods: 15
+              },
+                {
+                   name: 'SMA',
                    linkedTo: 'primary',
                    showInLegend: true,
-                  //  type: 'trendline',
+                  //type: 'trendline',
                    algorithm: 'SMA',
                    periods: 10
                }
@@ -1264,7 +1273,93 @@ $(function() {
            });
 
       //区域视图 结束
+      //sma
+        $("#advSMA", container).click(function(){
+         indicators();
+              alert("SMA");
+              // $(function () {
+              //     $.getJSON('//data.jianshukeji.com/jsonp?filename=json/new-intraday.json&callback=?', function (data) {
+              //         // create the chart
+              //         $('#container').highcharts('StockChart', {
+              //             chart: {
+              //                 // marginRight:200,
+              //                 // marginBottom: 10,
+              //                 // marginLeft: 10,
+              //                 // marginTop: 50,
+              //                 type: 'spline',
+              //                 animation: Highcharts.svg, // don't animate in old IE
+              //                 //背景颜色
+              //                 backgroundColor: 'black',
+              //                 plotBackgroundColor: '#333333'
+              //             },
+              //             title: {
+              //                 text: ''
+              //             },
+              //             navigator : {
+              //                 enabled : false
+              //             },
+              //             scrollbar : {
+              //                 enabled : false
+              //             },
+              //             plotOp  tions: {
+              //                 candlestick: {//红涨绿跌
+              //                     color: 'green',
+              //                     upColor: 'red'
+              //                 }
+              //             },
+              //             legend: {
+              //                 enabled: true,
+              //                 layout: 'vertical',
+              //                 align: 'right',
+              //                 verticalAlign: 'middle',
+              //                 borderWidth: 0
+              //             },
+              //             rangeSelector : {
+              //                 buttons : [{
+              //                     type : 'hour',
+              //                     count : 1,
+              //                     text : '1h'
+              //                 }, {
+              //                     type : 'hour',
+              //                     count : 1,
+              //                     text : '2h'
+              //                 }, {
+              //                     type : 'hour',
+              //                     count : 1,
+              //                     text : '5h'
+              //                 }],
+              //                 selected : 1,
+              //                 inputEnabled : false
+              //             },
+              //             series : [{
+              //                 name: 'Stock Price',
+              //                 type : 'line',
+              //                 id: 'primary',
+              //                 data : data
+              //             },
+              //             {
+              //                 name: '40-day SMA',
+              //                 linkedTo: 'primary',
+              //                 showInLegend: true,
+              //               //  type: 'trendline',
+              //                 algorithm: 'SMA',
+              //                 periods: 10
+              //             },
+              //             {
+              //                 name: '15-day EMA',
+              //                 linkedTo: 'primary',
+              //                 showInLegend: true,
+              //               //  type: 'trendline',
+              //                 algorithm: 'EMA',
+              //                 periods: 15
+              //             }
+              //                      ]
+              //         });
+              //     });
+              // });
 
+        });
+      //SMA 结束
         //K 线图
         $("#advkxiantu", container).click(function(){
         {
@@ -1403,124 +1498,7 @@ $(function() {
         });
 
         //K线图结束
-        //sma
-          $("#advSMA", container).click(function(){
-                alert("SMA123");
-          //
-    //       $(function () {
-    //
-    //       var adv_options = {
-    //           chart: {
-    //               borderWidth: 5,
-    //               borderColor: '#e8eaeb',
-    //               borderRadius: 0,
-    //               backgroundColor: '#f7f7f7'
-    //           },
-    //           title: {
-    //               style: {
-    //                   'fontSize': '1em'
-    //               },
-    //               useHTML: true,
-    //               x: -27,
-    //               y: 8,
-    //               text: '<span class="chart-title">SMA, EMA, ATR, RSI indicators <span class="chart-href"> <a href="http://www.blacklabel.pl/highcharts" target="_blank"> Black Label </a> </span> <span class="chart-subtitle">plugin by </span></span>'
-    //           },
-    //           indicators: [{
-    //               id: 'AAPL',
-    //               type: 'sma',
-    //               params: {
-    //                   period: 14
-    //               }
-    //           },
-    //              {
-    //               id: 'AAPL',
-    //               type: 'ema',
-    //               params: {
-    //                   period: 14,
-    //                   index: 0 //optional parameter for ohlc / candlestick / arearange - index of value
-    //               },
-    //               styles: {
-    //                   strokeWidth: 2,
-    //                   stroke: 'green',
-    //                   dashstyle: 'solid'
-    //               }
-    //           },
-    //           {
-    //               id: 'AAPL',
-    //               type: 'atr',
-    //               params: {
-    //                   period: 14
-    //               },
-    //               styles: {
-    //                   strokeWidth: 2,
-    //                   stroke: 'orange',
-    //                   dashstyle: 'solid'
-    //               },
-    //               yAxis: {
-    //                   lineWidth: 2,
-    //                   title: {
-    //                       text: 'ATR'
-    //                   }
-    //               }
-    //           }, {
-    //               id: 'AAPL',
-    //               type: 'rsi',
-    //               params: {
-    //                   period: 14,
-    //                   overbought: 70,
-    //                   oversold: 30
-    //               },
-    //               styles: {
-    //                   strokeWidth: 2,
-    //                   stroke: 'black',
-    //                   dashstyle: 'solid'
-    //               },
-    //               yAxis: {
-    //                   lineWidth: 2,
-    //                   title: {
-    //                       text: 'RSI'
-    //                   }
-    //               }
-    //           }],
-    //           yAxis: {
-    //               opposite: false,
-    //               title: {
-    //                   text: 'DATA SMA EMA',
-    //                   x: -4
-    //               },
-    //               lineWidth: 2,
-    //               labels: {
-    //                   x: 22
-    //               }
-    //           },
-    //           rangeSelector: {
-    //               selected: 0
-    //           },
-    //           tooltip: {
-    //               enabledIndicators: true
-    //           },
-    //           series: [{
-    //               cropThreshold: 0,
-    //               id: 'AAPL',
-    //               name: 'AAPL',
-    //               data: [],
-    //               tooltip: {
-    //                   valueDecimals: 2
-    //               }
-    //           }]
-    //       };
-    //     alert("SMA124");
-    // $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function (data) {
-    //
-    //     adv_options.series[0].type = 'area';
-    //     adv_options.series[0].data = data;
-    //
-    //     $('#container-advanced').highcharts('StockChart', adv_options);
-    // });
-    //
 
-          });
-        //SMA 结束
 
           });
 
