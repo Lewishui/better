@@ -42,6 +42,13 @@
 // = require rsi
 // = require sma
 // = require adv.indicators.demo
+// var Highcharts = require('highcharts/highstock');
+// require('indicators')(Highcharts);
+// require('sma')(Highcharts);
+// require('ema')(Highcharts);
+// require('rsi')(Highcharts);
+// require('atr')(Highcharts);
+
 
 $(function(){
   $('.calendar').datetimepicker({format: "YYYY-MM-DD"});

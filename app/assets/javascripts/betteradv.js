@@ -43,6 +43,7 @@
 //     return val/10000;
 // }
 ///////////////////////////////////////
+
 document.write("script language='javascript' src='indicators.js'></script");
 $(function () {
   var chart_symbols = [];
@@ -814,40 +815,40 @@ $(function() {
             alert("线条图");
          }
         // A label on the side of chart 2 that points at the last added value
-Highcharts.wrap(Highcharts.Series.prototype, 'addPoint', function(proceed) {
-    proceed.apply(this, [].slice.call(arguments, 1));
-    // only do this for spline charts
-    if (this.type === 'spline') {
-        this.yAxis.setSideLabel(this, arguments[1][1].toFixed(2));
-    }
-});
-Highcharts.Axis.prototype.setSideLabel = function(series, value) {
-    if (this.sideLabels === undefined) {
-        this.sideLabels = [];
-    }
-    var axis = this,
-        label = axis.sideLabels[series._i];
-    if (!label) {
-        label = this.sideLabels[series._i] = axis.chart.renderer.label(value)
-            .attr({
-            stroke: series.color,
-            strokeWidth: 1,
-            zIndex: 8
-        })
-            .add();
-        axis.chart.renderer.path(['M', -5, 11, 'L', 5, 5, 'L', 30, 5, 'L', 30, 18, 'L', 5, 18, 'Z'])
-            .attr({
-            stroke: series.color,
-            fill: Highcharts.Color(series.color).brighten(0.3).get(),
-            strokeWidth: 1
-        }).add(label);
-    }
-    label.attr({
-        translateX: axis.left + axis.width + 5,
-        translateY: this.top + this.height - axis.translate(value) - 11,
-        text: value
+    Highcharts.wrap(Highcharts.Series.prototype, 'addPoint', function(proceed) {
+        proceed.apply(this, [].slice.call(arguments, 1));
+        // only do this for spline charts
+        if (this.type === 'spline') {
+            this.yAxis.setSideLabel(this, arguments[1][1].toFixed(2));
+        }
     });
-}
+    Highcharts.Axis.prototype.setSideLabel = function(series, value) {
+        if (this.sideLabels === undefined) {
+            this.sideLabels = [];
+        }
+        var axis = this,
+            label = axis.sideLabels[series._i];
+        if (!label) {
+            label = this.sideLabels[series._i] = axis.chart.renderer.label(value)
+                .attr({
+                stroke: series.color,
+                strokeWidth: 1,
+                zIndex: 8
+            })
+                .add();
+            axis.chart.renderer.path(['M', -5, 11, 'L', 5, 5, 'L', 30, 5, 'L', 30, 18, 'L', 5, 18, 'Z'])
+                .attr({
+                stroke: series.color,
+                fill: Highcharts.Color(series.color).brighten(0.3).get(),
+                strokeWidth: 1
+            }).add(label);
+        }
+        label.attr({
+            translateX: axis.left + axis.width + 5,
+            translateY: this.top + this.height - axis.translate(value) - 11,
+            text: value
+        });
+    }
 
 $(function() {
     $(document).ready(function() {
@@ -1275,88 +1276,77 @@ $(function() {
       //区域视图 结束
       //sma
         $("#advSMA", container).click(function(){
-         indicators();
+        //  indicators();
               alert("SMA");
-              // $(function () {
-              //     $.getJSON('//data.jianshukeji.com/jsonp?filename=json/new-intraday.json&callback=?', function (data) {
-              //         // create the chart
-              //         $('#container').highcharts('StockChart', {
-              //             chart: {
-              //                 // marginRight:200,
-              //                 // marginBottom: 10,
-              //                 // marginLeft: 10,
-              //                 // marginTop: 50,
-              //                 type: 'spline',
-              //                 animation: Highcharts.svg, // don't animate in old IE
-              //                 //背景颜色
-              //                 backgroundColor: 'black',
-              //                 plotBackgroundColor: '#333333'
-              //             },
-              //             title: {
-              //                 text: ''
-              //             },
-              //             navigator : {
-              //                 enabled : false
-              //             },
-              //             scrollbar : {
-              //                 enabled : false
-              //             },
-              //             plotOp  tions: {
-              //                 candlestick: {//红涨绿跌
-              //                     color: 'green',
-              //                     upColor: 'red'
-              //                 }
-              //             },
-              //             legend: {
-              //                 enabled: true,
-              //                 layout: 'vertical',
-              //                 align: 'right',
-              //                 verticalAlign: 'middle',
-              //                 borderWidth: 0
-              //             },
-              //             rangeSelector : {
-              //                 buttons : [{
-              //                     type : 'hour',
-              //                     count : 1,
-              //                     text : '1h'
-              //                 }, {
-              //                     type : 'hour',
-              //                     count : 1,
-              //                     text : '2h'
-              //                 }, {
-              //                     type : 'hour',
-              //                     count : 1,
-              //                     text : '5h'
-              //                 }],
-              //                 selected : 1,
-              //                 inputEnabled : false
-              //             },
-              //             series : [{
-              //                 name: 'Stock Price',
-              //                 type : 'line',
-              //                 id: 'primary',
-              //                 data : data
-              //             },
-              //             {
-              //                 name: '40-day SMA',
-              //                 linkedTo: 'primary',
-              //                 showInLegend: true,
-              //               //  type: 'trendline',
-              //                 algorithm: 'SMA',
-              //                 periods: 10
-              //             },
-              //             {
-              //                 name: '15-day EMA',
-              //                 linkedTo: 'primary',
-              //                 showInLegend: true,
-              //               //  type: 'trendline',
-              //                 algorithm: 'EMA',
-              //                 periods: 15
-              //             }
-              //                      ]
-              //         });
-              //     });
-              // });
+              $(function () {
+                  $.getJSON('//data.jianshukeji.com/jsonp?filename=json/new-intraday.json&callback=?', function (data) {
+                      // create the chart
+                      $('#container').highcharts('StockChart', {
+                        indicators: [{
+                                      id: 'AAPL',
+                                      type: 'sma',
+                                      params: {
+                                          period: 5,
+                                      },
+                                      tooltip:{
+                                          pointFormat: '<span style="color: {point.color}; ">pointFormat SMA: </span> {point.y}<br>'
+                                      },
+                                  }, {
+                                      id: 'AAPL',
+                                      type: 'ema',
+                                      params: {
+                                          period: 5,
+                                          index: 0
+                                      },
+                                      styles: {
+                                          strokeWidth: 2,
+                                          stroke: 'green',
+                                          dashstyle: 'solid'
+                                      }
+                                  }, {
+                                      id: 'AAPL',
+                                      type: 'atr',
+                                      params: {
+                                          period: 14,
+                                      },
+                                      styles: {
+                                          strokeWidth: 2,
+                                          stroke: 'orange',
+                                          dashstyle: 'solid'
+                                      },
+                                      yAxis: {
+                                          lineWidth:2,
+                                          title: {
+                                              text:'My ATR title'
+                                          }
+                                      }
+                                  }, {
+                                      id: 'AAPL',
+                                      type: 'rsi',
+                                      params: {
+                                          period: 14,
+                                          overbought: 70,
+                                          oversold: 30
+                                      },
+                                      styles: {
+                                          strokeWidth: 2,
+                                          stroke: 'black',
+                                          dashstyle: 'solid'
+                                      },
+                                      yAxis: {
+                                          lineWidth:2,
+                                          title: {
+                                              text:'My RSI title'
+                                          }
+                                      }
+                          }],
+                          tooltip:{
+                              enabledIndicators: true
+                          },
+                      });
+                  });
+              });
+
 
         });
       //SMA 结束
