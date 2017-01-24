@@ -1278,78 +1278,642 @@ $(function() {
         $("#advSMA", container).click(function(){
         //  indicators();
               alert("SMA");
-              $(function () {
-                  $.getJSON('//data.jianshukeji.com/jsonp?filename=json/new-intraday.json&callback=?', function (data) {
-                      // create the chart
-                      $('#container').highcharts('StockChart', {
-                        indicators: [{
-                                      id: 'AAPL',
-                                      type: 'sma',
-                                      params: {
-                                          period: 5,
-                                      },
-                                      tooltip:{
-                                          pointFormat: '<span style="color: {point.color}; ">pointFormat SMA: </span> {point.y}<br>'
-                                      },
-                                  }, {
-                                      id: 'AAPL',
-                                      type: 'ema',
-                                      params: {
-                                          period: 5,
-                                          index: 0
-                                      },
-                                      styles: {
-                                          strokeWidth: 2,
-                                          stroke: 'green',
-                                          dashstyle: 'solid'
-                                      }
-                                  }, {
-                                      id: 'AAPL',
-                                      type: 'atr',
-                                      params: {
-                                          period: 14,
-                                      },
-                                      styles: {
-                                          strokeWidth: 2,
-                                          stroke: 'orange',
-                                          dashstyle: 'solid'
-                                      },
-                                      yAxis: {
-                                          lineWidth:2,
-                                          title: {
-                                              text:'My ATR title'
-                                          }
-                                      }
-                                  }, {
-                                      id: 'AAPL',
-                                      type: 'rsi',
-                                      params: {
-                                          period: 14,
-                                          overbought: 70,
-                                          oversold: 30
-                                      },
-                                      styles: {
-                                          strokeWidth: 2,
-                                          stroke: 'black',
-                                          dashstyle: 'solid'
-                                      },
-                                      yAxis: {
-                                          lineWidth:2,
-                                          title: {
-                                              text:'My RSI title'
-                                          }
-                                      }
-                          }],
-                          tooltip:{
-                              enabledIndicators: true
-                          },
-                      });
-                  });
-              });
+
+            Highcharts.wrap(Highcharts.Series.prototype, 'addPoint', function(proceed) {
+                proceed.apply(this, [].slice.call(arguments, 1));
+                // only do this for spline charts
+                if (this.type === 'spline') {
+                    this.yAxis.setSideLabel(this, arguments[1][1].toFixed(2));
+                }
+            });
+            Highcharts.Axis.prototype.setSideLabel = function(series, value) {
+                if (this.sideLabels === undefined) {
+                    this.sideLabels = [];
+                }
+                var axis = this,
+                    label = axis.sideLabels[series._i];
+                if (!label) {
+                    label = this.sideLabels[series._i] = axis.chart.renderer.label(value)
+                        .attr({
+                        stroke: series.color,
+                        strokeWidth: 1,
+                        zIndex: 8
+                    })
+                        .add();
+                    axis.chart.renderer.path(['M', -5, 11, 'L', 5, 5, 'L', 30, 5, 'L', 30, 18, 'L', 5, 18, 'Z'])
+                        .attr({
+                        stroke: series.color,
+                        fill: Highcharts.Color(series.color).brighten(0.3).get(),
+                        strokeWidth: 1
+                    }).add(label);
+                }
+                label.attr({
+                    translateX: axis.left + axis.width + 5,
+                    translateY: this.top + this.height - axis.translate(value) - 11,
+                    text: value
+                });
+            }
+            var chart1;
+            $(function() {
+                $(document).ready(function() {
+                    Highcharts.setOptions({
+                        global: {
+                            useUTC: false
+                        }
+                    });
+                    $('#container').highcharts({
+                           chart: {
+                            zoomType: 'x',
+                            //背景颜色
+                            plotBackgroundColor: '#333333',
+                            // plotBackgroundColor: '#FFFFFF',
+                            backgroundColor: 'black',
+                            type: 'spline',
+                             type: 'areaspline',
+                            linecolor: '#910000',
+                            animation: Highcharts.svg, // don't animate in old IE
+                            //                marginRight: 40,
+                            events: {
+                                load: function() {
+                                    // set up the updating of the chart each second
+                                    var series = this.series[0];
+                                    setInterval(function() {
+                                        var x = (new Date()).getTime(), // current time
+                                            y = Math.random();
+                                        series.addPoint([x, y], true, true);
+                                        //d  plotband
+                                        // chart.xAxis[0].removePlotBand('plot-band-1');
+                                        // chart.xAxis[0].addPlotBand({
+                                        //     from: x-20,
+                                        //     to: y,
+                                        //     color: '#434348',
+                                        //     id: 'plot-band-1'
+                                        // });
+                                        //
+                                        chart.yAxis[0].removePlotLine('plot-line-2');
+                                        chart.yAxis[0].addPlotLine({
+                                            value:  y  ,
+                                            width:2,
+                                            dashStyle: 'dash',
+                                            color: '#808080',
+                                            id: 'plot-line-2'
+                                        });
+                                    }, 1000);
+                                }
+                            },
+                        },
+                        title: {
+                            text: null
+                        },
+                        xAxis: {
+                            gridLineDashStyle: 'Solid',//横向网格线样式
+                            gridLineWidth: 0.1,//横向网格线宽度
+                            animation:true,
+                            startOnTick:true,
+                            endOnTick: true,
+                            ordinal:true,
+                            type: 'datetime',
+                            tickPixelInterval: 150,
+                            //tickInterval:60 * 1000 * 60 *2.5,
+                            // tickLength :210,//主刻度的长度
+                            plotBands: [{
+                                from: 0.5,
+                                to: 1,
+                                color: 'yellow',
+                                label: {
+                                    text: 'Comfort zone',
+                                    align: 'center',
+                                    verticalAlign: 'top',
+                                    y: 12,
+                                }
+                            }]
+                        },
+                        yAxis: [{
+                            gridLineWidth: 0.1,//横向网格线宽度
+                            title: {
+                                text: 'Value'
+                            },
+                            opposite: true,
+                            // plotLines: [{
+                            //     value: 0.6,
+                            //     width: 2,
+                            //     dashStyle: 'dash',
+                            //     color: '#808080'
+                            //     //动态添加删除标识线
+                            //     //chart:yAxis[0].removePlotLine('refline1'),
+                            //     // chart:yAxis[0].addPlotLine({
+                            //     //     id:'refline1',
+                            //     //     value: 1, //y轴水平线位置
+                            //     //     width: 1,
+                            //     //     color: '#800'//'#808080'
+                            //     // })
+                            // }]
+                        },
+                                {
+                                    title: {
+                                        enabled: false
+                                    },
+                                    gridLineWidth: 1,
+                                    minorGridLineWidth: 1,
+                                    minorTickInterval: 5,
+                                    top: 320,
+                                    height: 65,
+                                    min: 0,
+                                    max: 25,
+                                    plotBands: [{
+                                        from: 0,
+                                        to: 25,
+                                        color: '#FCFFC5'
+                                    }]
+                                }],
+                        tooltip: {
+                            // backgroundColor: 'none',
+                            //  lineColor:'#FCFFC5',//CCC
+                            //    backgroundColor: 'FCFFC5',
+                            crosshairs: [
+                                { dashStyle: 'Dash'},
+                                { dashStyle: 'Dash'},
+                                { color: "#ffcbcc" },
+                                { color: "#ffcbcc" }
+                            ],
+                            formatter: function() {
+                                return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
+                            }
+                        },
+                        legend: {
+                              enabled: true,
+                              layout: 'vertical',
+                              align: 'right',
+                              verticalAlign: 'middle',
+                              borderWidth: 0
+                        },
+                        exporting: {
+                            enabled: false
+                        },
 
 
-        });
+                      series: [{
+                            color: '#434348',
+                            lineColor:'#CCC',//CCC
+                            lineWidth: 0.5,
+                            name: "",
+                             id: 'primary',
+                            data: (function() {
+                                // generate an array of random data
+                                var data = [],
+                                    time = (new Date()).getTime(),
+                                    i;
+                                for (i = -19; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: Math.random()
+                                    });
+                                }
+                                return data;
+                            }())
+                            },
+                            {
+                              name: 'SMA',
+                              linkedTo: 'primary',
+                              showInLegend: true,
+                              type: 'trendline',
+                              algorithm: 'SMA',
+                              periods: 3
+                            },
+
+                                ]
+                    });
+
+                });
+            });
+
+          });
       //SMA 结束
+      //MACD  开始
+
+        $("#advMACD", container).click(function(){
+
+        alert("MACD");
+            Highcharts.wrap(Highcharts.Series.prototype, 'addPoint', function(proceed) {
+                proceed.apply(this, [].slice.call(arguments, 1));
+                // only do this for spline charts
+                if (this.type === 'spline') {
+                    this.yAxis.setSideLabel(this, arguments[1][1].toFixed(2));
+                }
+            });
+            Highcharts.Axis.prototype.setSideLabel = function(series, value) {
+                if (this.sideLabels === undefined) {
+                    this.sideLabels = [];
+                }
+                var axis = this,
+                    label = axis.sideLabels[series._i];
+                if (!label) {
+                    label = this.sideLabels[series._i] = axis.chart.renderer.label(value)
+                        .attr({
+                        stroke: series.color,
+                        strokeWidth: 1,
+                        zIndex: 8
+                    })
+                        .add();
+                    axis.chart.renderer.path(['M', -5, 11, 'L', 5, 5, 'L', 30, 5, 'L', 30, 18, 'L', 5, 18, 'Z'])
+                        .attr({
+                        stroke: series.color,
+                        fill: Highcharts.Color(series.color).brighten(0.3).get(),
+                        strokeWidth: 1
+                    }).add(label);
+                }
+                label.attr({
+                    translateX: axis.left + axis.width + 5,
+                    translateY: this.top + this.height - axis.translate(value) - 11,
+                    text: value
+                });
+            }
+            var chart1;
+            $(function() {
+                $(document).ready(function() {
+                    Highcharts.setOptions({
+                        global: {
+                            useUTC: false
+                        }
+                    });
+                    $('#container').highcharts({
+                           chart: {
+                            zoomType: 'x',
+                            //背景颜色
+                            plotBackgroundColor: '#333333',
+                            // plotBackgroundColor: '#FFFFFF',
+                            backgroundColor: 'black',
+                            type: 'spline',
+                             type: 'areaspline',
+                            linecolor: '#910000',
+                            animation: Highcharts.svg, // don't animate in old IE
+                            //                marginRight: 40,
+                            events: {
+                                load: function() {
+                                    // set up the updating of the chart each second
+                                    var series = this.series[0];
+                                    setInterval(function() {
+                                        var x = (new Date()).getTime(), // current time
+                                            y = Math.random();
+                                        series.addPoint([x, y], true, true);
+                                        //d  plotband
+                                        // chart.xAxis[0].removePlotBand('plot-band-1');
+                                        // chart.xAxis[0].addPlotBand({
+                                        //     from: x-20,
+                                        //     to: y,
+                                        //     color: '#434348',
+                                        //     id: 'plot-band-1'
+                                        // });
+                                        //
+                                        chart.yAxis[0].removePlotLine('plot-line-2');
+                                        chart.yAxis[0].addPlotLine({
+                                            value:  y  ,
+                                            width:2,
+                                            dashStyle: 'dash',
+                                            color: '#808080',
+                                            id: 'plot-line-2'
+                                        });
+                                    }, 1000);
+                                }
+                            },
+                        },
+                        title: {
+                            text: null
+                        },
+                        xAxis: {
+                            gridLineDashStyle: 'Solid',//横向网格线样式
+                            gridLineWidth: 0.1,//横向网格线宽度
+                            animation:true,
+                            startOnTick:true,
+                            endOnTick: true,
+                            ordinal:true,
+                            type: 'datetime',
+                            tickPixelInterval: 150,
+                            //tickInterval:60 * 1000 * 60 *2.5,
+                            // tickLength :210,//主刻度的长度
+                            plotBands: [{
+                                from: 0.5,
+                                to: 1,
+                                color: 'yellow',
+                                label: {
+                                    text: 'Comfort zone',
+                                    align: 'center',
+                                    verticalAlign: 'top',
+                                    y: 12,
+                                }
+                            }]
+                        },
+                        yAxis: [{
+                            gridLineWidth: 0.1,//横向网格线宽度
+                            title: {
+                                text: 'Value'
+                            },
+                            opposite: true,
+                            // plotLines: [{
+                            //     value: 0.6,
+                            //     width: 2,
+                            //     dashStyle: 'dash',
+                            //     color: '#808080'
+                            //     //动态添加删除标识线
+                            //     //chart:yAxis[0].removePlotLine('refline1'),
+                            //     // chart:yAxis[0].addPlotLine({
+                            //     //     id:'refline1',
+                            //     //     value: 1, //y轴水平线位置
+                            //     //     width: 1,
+                            //     //     color: '#800'//'#808080'
+                            //     // })
+                            // }]
+                        },
+                        {
+                            title: {
+                                enabled: false
+                            },
+                            gridLineWidth: 1,
+                            minorGridLineWidth: 1,
+                            minorTickInterval: 5,
+                            top: 320,
+                            height: 65,
+                            min: 0,
+                            max: 25,
+                            plotBands: [{
+                                from: 0,
+                                to: 25,
+                                color: '#FCFFC5'
+                            }]
+                        }],
+                        tooltip: {
+                            // backgroundColor: 'none',
+                            //  lineColor:'#FCFFC5',//CCC
+                            //    backgroundColor: 'FCFFC5',
+                            crosshairs: [
+                                { dashStyle: 'Dash'},
+                                { dashStyle: 'Dash'},
+                                { color: "#ffcbcc" },
+                                { color: "#ffcbcc" }
+                            ],
+                            formatter: function() {
+                                return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
+                            }
+                        },
+                        legend: {
+                              enabled: true,
+                              layout: 'vertical',
+                              align: 'right',
+                              verticalAlign: 'middle',
+                              borderWidth: 0
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                      series: [{
+                            color: '#434348',
+                              type : 'line',
+                            lineColor:'#CCC',//CCC
+                            lineWidth: 0.5,
+                            name: "",
+                             id: 'primary',
+                            data: (function() {
+                                // generate an array of random data
+                                var data = [],
+                                    time = (new Date()).getTime(),
+                                    i;
+                                for (i = -19; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: Math.random()
+                                    });
+                                }
+                                return data;
+                            }())
+                            },
+                            {
+                             name : 'MACD',
+                             linkedTo: 'primary',
+                               yAxis:1,
+                             showInLegend: true,
+                             type: 'trendline',
+                             algorithm: 'MACD'
+
+                               }
+                                ]
+                    });
+
+                });
+            });
+
+          });
+      //MACD 结束
+      //RSI  开始
+
+        $("#advRSI", container).click(function(){
+            alert("RSI");
+            Highcharts.wrap(Highcharts.Series.prototype, 'addPoint', function(proceed) {
+                proceed.apply(this, [].slice.call(arguments, 1));
+                // only do this for spline charts
+                if (this.type === 'spline') {
+                    this.yAxis.setSideLabel(this, arguments[1][1].toFixed(2));
+                }
+            });
+            Highcharts.Axis.prototype.setSideLabel = function(series, value) {
+                if (this.sideLabels === undefined) {
+                    this.sideLabels = [];
+                }
+                var axis = this,
+                    label = axis.sideLabels[series._i];
+                if (!label) {
+                    label = this.sideLabels[series._i] = axis.chart.renderer.label(value)
+                        .attr({
+                        stroke: series.color,
+                        strokeWidth: 1,
+                        zIndex: 8
+                    })
+                        .add();
+                    axis.chart.renderer.path(['M', -5, 11, 'L', 5, 5, 'L', 30, 5, 'L', 30, 18, 'L', 5, 18, 'Z'])
+                        .attr({
+                        stroke: series.color,
+                        fill: Highcharts.Color(series.color).brighten(0.3).get(),
+                        strokeWidth: 1
+                    }).add(label);
+                }
+                label.attr({
+                    translateX: axis.left + axis.width + 5,
+                    translateY: this.top + this.height - axis.translate(value) - 11,
+                    text: value
+                });
+            }
+            var chart1;
+            $(function() {
+                $(document).ready(function() {
+                    Highcharts.setOptions({
+                        global: {
+                            useUTC: false
+                        }
+                    });
+                    $('#container').highcharts({
+                           chart: {
+                            zoomType: 'x',
+                            //背景颜色
+                            plotBackgroundColor: '#333333',
+                            // plotBackgroundColor: '#FFFFFF',
+                            backgroundColor: 'black',
+                            type: 'spline',
+                             type: 'areaspline',
+                            linecolor: '#910000',
+                            animation: Highcharts.svg, // don't animate in old IE
+                            //                marginRight: 40,
+                            events: {
+                                load: function() {
+                                    // set up the updating of the chart each second
+                                    var series = this.series[0];
+                                    setInterval(function() {
+                                        var x = (new Date()).getTime(), // current time
+                                            y = Math.random();
+                                        series.addPoint([x, y], true, true);
+
+                                        chart.yAxis[0].removePlotLine('plot-line-2');
+                                        chart.yAxis[0].addPlotLine({
+                                            value:  y  ,
+                                            width:2,
+                                            dashStyle: 'dash',
+                                            color: '#808080',
+                                            id: 'plot-line-2'
+                                        });
+                                    }, 1000);
+                                }
+                            },
+                        },
+                        title: {
+                            text: null
+                        },
+                        xAxis: {
+                            gridLineDashStyle: 'Solid',//横向网格线样式
+                            gridLineWidth: 0.1,//横向网格线宽度
+                            animation:true,
+                            startOnTick:true,
+                            endOnTick: true,
+                            ordinal:true,
+                            type: 'datetime',
+                            tickPixelInterval: 150,
+                            //tickInterval:60 * 1000 * 60 *2.5,
+                            // tickLength :210,//主刻度的长度
+                            plotBands: [{
+                                from: 0.5,
+                                to: 1,
+                                color: 'yellow',
+                                label: {
+                                    text: 'Comfort zone',
+                                    align: 'center',
+                                    verticalAlign: 'top',
+                                    y: 12,
+                                }
+                            }]
+                        },
+                        yAxis: [{
+                            gridLineWidth: 0.1,//横向网格线宽度
+                            title: {
+                                text: 'Value'
+                            },
+                            opposite: true,
+
+                        },
+                        {
+                            title: {
+                                enabled: false
+                            },
+                            gridLineWidth: 1,
+                            minorGridLineWidth: 1,
+                            minorTickInterval: 5,
+                            top: 320,
+                            height: 65,
+                            min: 0,
+                            max: 25,
+                            plotBands: [{
+                                from: 0,
+                                to: 25,
+                                color: '#FCFFC5'
+                            }]
+                        }],
+                        tooltip: {
+                            // backgroundColor: 'none',
+                            //  lineColor:'#FCFFC5',//CCC
+                            //    backgroundColor: 'FCFFC5',
+                            crosshairs: [
+                                { dashStyle: 'Dash'},
+                                { dashStyle: 'Dash'},
+                                { color: "#ffcbcc" },
+                                { color: "#ffcbcc" }
+                            ],
+                            formatter: function() {
+                                return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
+                            }
+                        },
+                        legend: {
+                              enabled: true,
+                              layout: 'vertical',
+                              align: 'right',
+                              verticalAlign: 'middle',
+                              borderWidth: 0
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                      series: [{
+                            color: '#434348',
+                              type : 'line',
+                            lineColor:'#CCC',//CCC
+                            lineWidth: 0.5,
+                            name: "",
+                             id: 'primary',
+                            data: (function() {
+                                // generate an array of random data
+                                var data = [],
+                                    time = (new Date()).getTime(),
+                                    i;
+                                for (i = -19; i <= 0; i += 1) {
+                                    data.push({
+                                        x: time + i * 1000,
+                                        y: Math.random()
+                                    });
+                                }
+                                return data;
+                            }())
+                            },
+                            {
+                                  // id: 'AAPL',
+                                  // type: 'rsi',
+                                  // params: {
+                                  //     period: 14,
+                                  //     overbought: 70,
+                                  //     oversold: 30
+                                  // },
+                                  // styles: {
+                                  //     strokeWidth: 2,
+                                  //     stroke: 'black',
+                                  //     dashstyle: 'solid'
+                                  // },
+                                  // yAxis: {
+                                  //     lineWidth:2,
+                                  //     title: {
+                                  //         text:'My RSI title'
+                                  //           }
+                                  //     }
+                            }
+                                ]
+                    });
+
+                });
+            });
+
+          });
+      //RSI 结束
+
+
         //K 线图
         $("#advkxiantu", container).click(function(){
         {
@@ -1394,7 +1958,8 @@ $(function() {
             enabled : false
         },
          plotOptions: {
-                 candlestick: {//红涨绿跌
+                 candlestick: {
+                   //红涨绿跌
                      color: 'green',
                      upColor: 'red'
                  }
@@ -1403,15 +1968,15 @@ $(function() {
           //  注销zoom按钮功能 例子 selected 开始之后的按钮会注销
       //     allButtonsEnabled: true,
 
-                 buttons : [{
-                     type : 'min',
-                     count : 1,
-                     text : '大'
-                 }, {
-                     type : 'min',
-                     count : 1,
-                     text : '小'
-                 }, ],
+           buttons : [{
+               type : 'min',
+               count : 1,
+               text : '大'
+           }, {
+               type : 'min',
+               count : 1,
+               text : '小'
+           }, ],
                  selected : 1,
                  inputEnabled : false
              },
@@ -1419,10 +1984,22 @@ $(function() {
                  name : 'AAPL',
                  type: 'candlestick',
                  data : data,
+                 id: 'primary',
                  tooltip: {
                      valueDecimals: 2
                  }
-             }]
+             },
+              // {
+              //     name: '40-day SMA',
+              //     linkedTo: 'primary',
+              //     showInLegend: true,
+              //     type: 'trendline',
+              //     algorithm: 'SMA',
+              //     periods: 50
+              // }
+
+
+           ]
             } );
 
           });

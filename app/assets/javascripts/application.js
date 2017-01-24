@@ -48,7 +48,7 @@
 // require('ema')(Highcharts);
 // require('rsi')(Highcharts);
 // require('atr')(Highcharts);
-
+// = require technical-indicators.src
 
 $(function(){
   $('.calendar').datetimepicker({format: "YYYY-MM-DD"});
