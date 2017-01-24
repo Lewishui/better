@@ -1863,45 +1863,49 @@ $(function() {
                         exporting: {
                             enabled: false
                         },
-                        indicators: [{
-                                    id: 'AAPL',
-                                    type: 'sma',
-                                    params: {
-                                        period: 5,
-                                    },
-                                    tooltip:{
-                                        pointFormat: '<span style="color: {point.color}; ">pointFormat SMA: </span> {point.y}<br>'
-                                    },
-                                }, {
-                                    id: 'AAPL',
-                                    type: 'ema',
-                                    params: {
-                                        period: 5,
-                                        index: 0
-                                    },
-                                    styles: {
-                                        strokeWidth: 2,
-                                        stroke: 'green',
-                                        dashstyle: 'solid'
-                                    }
-                                }, {
-                                    id: 'AAPL',
-                                    type: 'atr',
-                                    params: {
-                                        period: 14,
-                                    },
-                                    styles: {
-                                        strokeWidth: 2,
-                                        stroke: 'orange',
-                                        dashstyle: 'solid'
-                                    },
-                                    yAxis: {
-                                        lineWidth:2,
-                                        title: {
-                                            text:'My ATR title'
-                                        }
-                                    }
-                                }, {
+                        indicators: [
+                                // {
+                                //     id: 'AAPL',
+                                //     type: 'sma',
+                                //     params: {
+                                //         period: 5,
+                                //     },
+                                //     tooltip:{
+                                //         pointFormat: '<span style="color: {point.color}; ">pointFormat SMA: </span> {point.y}<br>'
+                                //     },
+                                // },
+
+                                //  {
+                                //     id: 'AAPL',
+                                //     type: 'ema',
+                                //     params: {
+                                //         period: 5,
+                                //         index: 0
+                                //     },
+                                //     styles: {
+                                //         strokeWidth: 2,
+                                //         stroke: 'green',
+                                //         dashstyle: 'solid'
+                                //     }
+                                // }, {
+                                //     id: 'AAPL',
+                                //     type: 'atr',
+                                //     params: {
+                                //         period: 14,
+                                //     },
+                                //     styles: {
+                                //         strokeWidth: 2,
+                                //         stroke: 'orange',
+                                //         dashstyle: 'solid'
+                                //     },
+                                //     yAxis: {
+                                //         lineWidth:2,
+                                //         title: {
+                                //             text:'My ATR title'
+                                //         }
+                                //     }
+                                // },
+                                 {
                                     id: 'AAPL',
                                     type: 'rsi',
                                     params: {
@@ -1925,27 +1929,7 @@ $(function() {
                         tooltip: {
                                      enabledIndicators: true
                                  },
-                        //  series: [{
-                        //      cropThreshold: 0,
-                        //      id: 'AAPL',
-                        //      name: 'AAPL',
-                        //      data: (function() {
-                        //          // generate an array of random data
-                        //          var data = [],
-                        //              time = (new Date()).getTime(),
-                        //              i;
-                        //          for (i = -19; i <= 0; i += 1) {
-                        //              data.push({
-                        //                  x: time + i * 1000,
-                        //                  y: Math.random()
-                        //              });
-                        //          }
-                        //          return data;
-                        //      }())
-                        //      tooltip: {
-                        //          valueDecimals: 2
-                        //      }
-                        //  }]
+
                       series: [{
                             color: '#434348',
                               type : 'line',
