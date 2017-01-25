@@ -49,6 +49,8 @@
 // require('rsi')(Highcharts);
 // require('atr')(Highcharts);
 // = require technical-indicators.src
+// = require highstock.src
+// = require rsi2
 
 $(function(){
   $('.calendar').datetimepicker({format: "YYYY-MM-DD"});
