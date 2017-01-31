@@ -1715,10 +1715,11 @@ $(function() {
             $(function () {
                  var adv_options = {
                         chart: {
+                           plotShadow: false,
                             borderWidth: 5,
                             borderColor: '#e8eaeb',
                             borderRadius: 0,
-                            backgroundColor: '#f7f7f7'
+                            backgroundColor: '#333333'
                         },
 
                         indicators: [
@@ -1762,8 +1763,9 @@ $(function() {
                             id: 'AAPL',
                             type: 'rsi',
                             params: {
+                               index :1,
                                 period: 14,
-                                overbought: 70,
+                              //  overbought: 70,
                                 oversold: 30
                             },
                             styles: {
@@ -1779,7 +1781,7 @@ $(function() {
                             }
                         }],
                         yAxis: {
-                            // opposite: false,
+                          opposite: true
                             // title: {
                             //     text: 'DATA SMA EMA',
                             //     x: -1
@@ -1789,6 +1791,12 @@ $(function() {
                             //     x: 22
                             // }
                         },
+                        navigator : {
+                                      enabled : false
+                                    },
+                       scrollbar : {
+                            enabled : false
+                                    },
                         rangeSelector: {
                             selected: 0
                         },
@@ -1807,20 +1815,16 @@ $(function() {
                     };
 
                      $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function (data) {
-
                          adv_options.series[0].type = 'candlestick';//candlestick
                          adv_options.series[0].data = data;
-
                          $('#container').highcharts('StockChart', adv_options);
                      });
-
-
 
                     });
              });
          //RSI 结束
 
-      //Bollinger Bands 开始
+       //Bollinger Bands 开始
          $("#advBollingerBands", container).click(function(){
              alert("Bollinger Bands");
 
