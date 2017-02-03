@@ -1770,7 +1770,7 @@ $(function() {
                             },
                             styles: {
                                 strokeWidth: 2,
-                                stroke: 'black',
+                                stroke: 'red',
                                 dashstyle: 'solid'
                             },
                             yAxis: {
@@ -1796,7 +1796,7 @@ $(function() {
                                     },
                        scrollbar : {
                             enabled : false
-                                    },
+                                  },
                         rangeSelector: {
                             selected: 0
                         },
@@ -1829,7 +1829,7 @@ $(function() {
              alert("Bollinger Bands");
 
               });
-          //BollingerBands 结束
+            //BollingerBands 结束
 
 
         //K 线图
