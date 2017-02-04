@@ -1712,6 +1712,146 @@ $(function() {
       //RSI  开始
         $("#advRSI", container).click(function(){
             alert("RSI");
+            //
+          // a.indicatorConfig = [{
+          //             id: "chart-series",
+          //             type: "sma",
+          //             zIndex: 6,
+          //             params: {
+          //                 period: 14
+          //             },
+          //             tooltip: {
+          //                 decimals: a.precision
+          //             },
+          //             styles: {
+          //                 stroke: "#7ea9c7"
+          //             },
+          //             title: "SMA",
+          //             disabled: !1,
+          //             isActive: !1
+          //         },
+          //         {
+          //             id: "chart-series",
+          //             type: "rsi",
+          //             zIndex: 6,
+          //             params: {
+          //                 period: 14,
+          //                 overbought: 70,
+          //                 oversold: 30,
+          //                 decimals: parseInt(a.precision) + 1
+          //             },
+          //             tooltip: {
+          //                 decimals: a.precision
+          //             },
+          //             styles: {
+          //                 dashstyle: "solid",
+          //                 strokeWidth: 1,
+          //                 stroke: "#7ec78c"
+          //             },
+          //             yAxis: {
+          //                 labels: {
+          //                     align: "left",
+          //                     x: 5
+          //                 },
+          //                 opposite: !0,
+          //                 plotLines: [{
+          //                     value: 70,
+          //                     color: "#c7794f",
+          //                     width: 1
+          //                 },
+          //                 {
+          //                     value: 30,
+          //                     color: "#c7794f",
+          //                     width: 1
+          //                 }],
+          //                 title: {
+          //                     text: "RSI",
+          //                     style: {
+          //                         color: "#7ec78c"
+          //                     }
+          //                 }
+          //             },
+          //             title: "RSI",
+          //             disabled: !1,
+          //             isActive: !1
+          //         },
+          //         {
+          //             id: "chart-series",
+          //             type: "bb",
+          //             zIndex: 6,
+          //             tooltip: {
+          //                 decimals: a.precision
+          //             },
+          //             topLine: {
+          //                 styles: {
+          //                     stroke: "#ac7ec7"
+          //                 }
+          //             },
+          //             mainLine: {
+          //                 styles: {
+          //                     stroke: "#ac7ec7"
+          //                 }
+          //             },
+          //             bottomLine: {
+          //                 styles: {
+          //                     stroke: "#ac7ec7"
+          //                 }
+          //             },
+          //             title: "Bolinger Bands",
+          //             disabled: !1,
+          //             isActive: !1
+          //         },
+          //         {
+          //             id: "chart-series",
+          //             type: "macd",
+          //             zIndex: 6,
+          //             params: {
+          //                 decimals: parseInt(a.precision) + 1
+          //             },
+          //             tooltip: {
+          //                 decimals: a.precision
+          //             },
+          //             topLine: {
+          //                 styles: {
+          //                     stroke: "#c76767"
+          //                 }
+          //             },
+          //             mainLine: {
+          //                 styles: {
+          //                     stroke: "#c76767"
+          //                 }
+          //             },
+          //             yAxis: {
+          //                 labels: {
+          //                     align: "left",
+          //                     x: 5
+          //                 },
+          //                 opposite: !0,
+          //                 title: {
+          //                     text: "MACD",
+          //                     style: {
+          //                         color: "#c76767"
+          //                     }
+          //                 }
+          //             },
+          //             title: "MACD",
+          //             disabled: !1,
+          //             isActive: !1
+          //         }]
+          // H = function() {
+          //          var b = a.chartObj.indicators.allItems || [];
+          //          angular.forEach(b,
+          //          function(b, c) {
+          //              var d = _.find(a.indicatorConfig,
+          //              function(a) {
+          //                  return a.type === b.name
+          //              });
+          //              d.isActive = !1,
+          //              b   .destroy()
+          //          })
+          //      },
+
+            //
             $(function () {
                  var adv_options = {
                         chart: {
