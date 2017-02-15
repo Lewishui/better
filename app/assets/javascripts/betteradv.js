@@ -2069,8 +2069,8 @@ $(function() {
 
                  $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function (data) {
 
-                    //  adv_options.series[0].type = 'candlestick';
-                     adv_options.series[0].type = 'areaLine';
+                       adv_options.series[0].type = 'candlestick';
+                    // adv_options.series[0].type = 'areaLine';
                      adv_options.series[0].data = data;
 
                      $('#container').highcharts('StockChart', adv_options);
@@ -2079,7 +2079,7 @@ $(function() {
 
 
              });
-              });
+          });
             //BollingerBands 结束
 
 
